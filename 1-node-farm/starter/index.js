@@ -2,6 +2,9 @@ const fs = require("fs");
 const http = require("http");
 const path = require("path");
 const url = require("url");
+
+const slugify = require("slugify");
+
 const replaceTemplate = require("./modules/replaceTemplate");
 
 ///////////////////////////////////////////////
@@ -54,6 +57,10 @@ const templateProduct = fs.readFileSync(
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObj = JSON.parse(data);
 
+const slugs = dataObj.map((element) =>
+  slugify(element.productName, { lower: true })
+);
+ 
 const server = http.createServer((request, response) => {
   // Get the query and the pathName from the request
   // OLD WAY
